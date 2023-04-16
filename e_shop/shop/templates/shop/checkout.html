@@ -1,0 +1,58 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+    {% block title %}Checkout{% endblock %}
+    {% block main-content %}
+        <div class="container">
+            {% if messages %}
+                {% for item in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ item }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="row mt-5">
+                <div class="col-sm-6">
+                    <h4>Order Summary</h4>
+                    <hr>
+                    {% for item in cart_items %}
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <h5>Product: {{ item.product.title }}</h5>
+                                <p>Quantity: {{ item.quantity }}</p>
+                                <p class="fw-bold">Price: {{ item.product.discounted_price }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <p class="fw-bold">Total Cost + Rs. 40 = {{ totalamount }}</p>
+                    <small>Term and Condition: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam dolores doloribus nisi pariatur? Amet culpa doloremque earum est ipsum magnam mollitia neque nobis, obcaecati officia rem, repellendus soluta sunt tempora!</small>
+                </div>
+                <div class="col-sm-4 offset-sm-1">
+                    <h4>Select Shipping Address</h4>
+                    <hr>
+                    <form method="post" id="myform">
+                        {% csrf_token %}
+                        {% for item in add %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>{{item.name}}</h5>
+                                    <p>Mobile: {{ item.mobile }}</p>
+                                    <p>{{ item.locality }} {{ item.city }} {{ item.state }} - {{ item.zipcode }}</p>
+                                </div>
+                            </div>
+                            <div class="form-check mt-2 mb-5">
+                                <input type="radio" name="custid" id="custadd{{ forloop.counter }}" value="{{ item.id }}" class="form-check-input">
+                                <label for="custadd{{ forloop.counter }}" class="form-check-label">Address: {{ forloop.counter }}</label>
+                            </div>
+                        {% endfor %}
+                        <div class="form-check mb-3">
+                            <label for="totalamount" class="form-label">Total Amount</label>
+                            <input type="text" name="totalamount" id="totalamount" class="form-control" value="{{ totalamount }}" readonly>
+                        </div>
+                    </form>
+                    <div class="text-end">
+                        <button id="rzp-button1" type="submit" class="btn btn-warning mt-3 px-5 fw-bold">Payment</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

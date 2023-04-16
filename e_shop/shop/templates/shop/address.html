@@ -1,0 +1,36 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+    {% block title %}Address{% endblock %}
+    {% block main-content %}
+        <div class="container my-5">
+            <div class="row">
+                <h3>Welcome {{ request.user.username }}</h3>
+                <div class="col-sm-2 border-end">
+                    <ul class="list-unstyled">
+                        <li class="d-grid"><a href="{% url 'profile' %}" class="btn">Profile</a></li>
+                        <li class="d-grid"><a href="{% url 'address' %}" class="btn btn-primary">Address</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-8 offset-sm-1">
+                    <div class="row">
+                        {% for item in add %}
+                            <div class="col-sm-6">
+                                <div class="card m-2">
+                                    <div class="crad-body py-4 mx-auto">
+                                        <h3 class="text-center">Address {{forloop.counter}}</h3>
+                                        <p class="text-center">Name: {{ item.name }}</p>
+                                        <p class="text-center">Locality: {{ item.locality }}</p>
+                                        <p class="text-center">Mobile: {{ item.mobile }}</p>
+                                        <p class="text-center">City: {{ item.city }}</p>
+                                        <p class="text-center">State: {{ item.state }}</p>
+                                        <p class="text-center">Zipcode: {{ item.zipcode }}</p>
+                                        <p class="text-center mt-5"><a href="{% url 'update_address' pk=item.id %}" type="button" class="btn btn-success">Update</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}
